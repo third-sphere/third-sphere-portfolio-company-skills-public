@@ -237,7 +237,7 @@ buries the real signal.
 | Sales & Traction | **Traction & Business Development** — pipeline, leads, LOIs, contracts, conversion | no pipeline/sales change |
 | Market Position | **Market** — TAM/SAM developments, new segments, geographic expansion, pricing | no market developments |
 | Competitive Landscape | **Competition** — competitive shifts, wins/losses vs. incumbents, defensibility (moat) | no competitive change |
-| Impact & Sustainability | **Impact** — sustainability/impact metrics, ESG milestones, social outcomes | no impact data |
+| Climate Impact | **Impact** — GHG/climate metrics, milestones tied to the climate thesis | no new impact data |
 | Team & Organization | **Team** — hires, departures, role changes, key needs | no team change |
 | Financial Health | **Financial & Runway** — cash on hand, monthly burn, runway, path to profitability | almost never skipped — runway is always material |
 

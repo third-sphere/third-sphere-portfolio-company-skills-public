@@ -23,7 +23,7 @@ DATE: {Month Day, Year}    [** CONFIDENTIAL **]
 | Money in the bank & runway — Cash on Hand; Monthly Burn; Runway (months). | (always present) |
 | Market — TAM/SAM developments, new segments, geographies, pricing. | … |
 | Competition — competitive shifts, wins/losses, moat. | … |
-| Impact — ESG/sustainability metrics and impact milestones (if applicable). | … |
+| Impact — GHG/climate metrics tied to the climate thesis. | … |
 | Fundraising — inbound interest, grants, term sheets (only if active). | … |
 | Team updates — hires, departures, role changes, needs. | … |
 | Help & Asks — running list; intros, term-sheet reviews, hiring. Keep old asks until done. | … |
@@ -129,8 +129,7 @@ changes.
 
 **Competition** — competitive shifts, wins/losses vs. incumbents, defensibility / moat.
 
-**Impact & Sustainability** — sustainability metrics, ESG progress, social outcomes
-(include only if relevant to the company).
+**Impact** — GHG/climate metrics, milestones tied to the climate thesis.
 
 **Team** — hires, departures, key role changes, open hiring needs, advisor additions.
 
