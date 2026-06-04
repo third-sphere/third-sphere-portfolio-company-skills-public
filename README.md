@@ -21,6 +21,7 @@ Download a skill folder, zip it as `<skill-name>.skill`, and import it into Clau
 |---|---|
 | **better-writing** | Diagnose and strengthen narrative structure in drafts (stories, essays, posts) — finds where writing takes default, low-risk choices and proposes concrete structural revisions |
 | **founder-update** | Build portfolio company investor updates (weekly/monthly) with OKRs, metrics dashboards, and trend charts — pulls data from CRM, billing, and finance tools to create polished, data-driven founder letters |
+| **seed-pitch-kit** | Generate complete seed-stage fundraising materials — investment memo, TEA & market sizing, financial model, pitch decks, outreach emails, and investor list — all built comprehensive-to-concise from a shared narrative foundation |
 
 ## What is a skill?
 
