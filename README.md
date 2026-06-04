@@ -20,6 +20,7 @@ Download a skill folder, zip it as `<skill-name>.skill`, and import it into Clau
 | Skill | What it does |
 |---|---|
 | **better-writing** | Diagnose and strengthen narrative structure in drafts (stories, essays, posts) — finds where writing takes default, low-risk choices and proposes concrete structural revisions |
+| **founder-update** | Build portfolio company investor updates (weekly/monthly) with OKRs, metrics dashboards, and trend charts — pulls data from CRM, billing, and finance tools to create polished, data-driven founder letters |
 
 ## What is a skill?
 
