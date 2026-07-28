@@ -12,12 +12,9 @@ description: >
   or setup required.
 ---
 
-# CapStack Compass — public / portfolio-company skill
+> **[GitHub mirror — top note only; body below is identical to Notion]** The **source of truth** for this skill is the **Notion** copy (https://app.notion.com/p/3abe969a5847806bb1b9e7f4525d0a93). This is the **self-contained** copy we share with portfolio companies (they can't access our Notion). Everything from the heading below down is kept **identical** to the Notion page — only this bracketed top note differs. Edit Notion first, then mirror the change here.
 
-> 📍 **Canonical version lives in GitHub** — maintained at
-> `third-sphere/third-sphere-portfolio-company-skills-public` →
-> `skills/capstackcompass-public-portco-skill/SKILL.md`. The uploaded Claude skill is a
-> snapshot; the GitHub copy may be newer.
+# CapStack Compass — public / portfolio-company skill
 
 For portfolio companies and external contributors. Lets you **look up** capital
 providers and **suggest additions or updates**, which land in Third Sphere's
