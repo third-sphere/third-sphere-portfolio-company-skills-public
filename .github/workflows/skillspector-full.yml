@@ -1,0 +1,33 @@
+name: SkillSpector (full, weekly)
+on:
+  schedule:
+    - cron: '0 13 * * 1'   # Mondays 13:00 UTC
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  security-events: write
+jobs:
+  scan-all:
+    name: scan-all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install SkillSpector
+        run: |
+          pip install pyyaml
+          pip install "git+https://github.com/NVIDIA/skillspector.git@v2.9.6"
+      - name: Full scan (report-only — never blocks main)
+        run: |
+          dirs=$(ls -d skills/*/ 2>/dev/null | sed 's:/*$::')
+          [ -n "$dirs" ] && python .github/skillspector/scan_gate.py --report-only \
+            --sarif skillspector.sarif \
+            --allowlist .github/skillspector/allowlist.yml \
+            $dirs || echo "no skills to scan"
+      - name: Upload SARIF
+        if: always() && hashFiles('skillspector.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: skillspector.sarif

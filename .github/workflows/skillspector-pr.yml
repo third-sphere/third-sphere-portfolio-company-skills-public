@@ -1,0 +1,47 @@
+name: SkillSpector
+on:
+  pull_request:
+    paths:
+      - 'skills/**'
+permissions:
+  contents: read
+  security-events: write   # required for SARIF upload to code scanning
+jobs:
+  scan:
+    name: scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install SkillSpector
+        # Pinned to a release tag so a new SkillSpector release cannot change findings under us.
+        run: |
+          pip install pytest pyyaml
+          pip install "git+https://github.com/NVIDIA/skillspector.git@v2.9.6"
+      - name: Gate-logic self-test
+        run: pytest -q tests/test_scan_gate.py
+      - name: Determine changed skills
+        id: changed
+        run: |
+          base="${{ github.event.pull_request.base.sha }}"
+          dirs=$(git diff --name-only "$base"...HEAD -- 'skills/**' \
+                 | awk -F/ 'NF>=2 {print $1"/"$2}' | sort -u)
+          echo "dirs<<EOF2" >> "$GITHUB_OUTPUT"
+          echo "$dirs"       >> "$GITHUB_OUTPUT"
+          echo "EOF2"        >> "$GITHUB_OUTPUT"
+      - name: Scan changed skills (block on HIGH/CRITICAL)
+        if: steps.changed.outputs.dirs != ''
+        run: |
+          python .github/skillspector/scan_gate.py \
+            --sarif skillspector.sarif \
+            --allowlist .github/skillspector/allowlist.yml \
+            ${{ steps.changed.outputs.dirs }}
+      - name: Upload SARIF
+        if: always() && hashFiles('skillspector.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: skillspector.sarif

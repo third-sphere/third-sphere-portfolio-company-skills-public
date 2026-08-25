@@ -1,0 +1,11 @@
+# Reviewed SkillSpector false positives. Each entry suppresses ONE (skill, rule_id) pair so
+# the PR gate doesn't block on a finding a human has consciously accepted. Keep it small and
+# justified — every entry is a visible, revertible diff.
+#
+# suppress:
+#   - skill: deal-charts          # the skill dir name under skills/
+#     rule_id: AST4               # SkillSpector rule (e.g. AST4 = subprocess call)
+#     reason: "builds matplotlib charts via subprocess; no external/tainted input"
+#     approved_by: stonly
+#     date: 2026-06-24
+suppress: []
