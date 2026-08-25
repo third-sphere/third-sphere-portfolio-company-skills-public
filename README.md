@@ -22,6 +22,7 @@ Download a skill folder, zip it as `<skill-name>.skill`, and import it into Clau
 | **better-writing** | Diagnose and strengthen narrative structure in drafts (stories, essays, posts) — finds where writing takes default, low-risk choices and proposes concrete structural revisions |
 | **founder-update** | Build portfolio company investor updates (weekly/monthly) with OKRs, metrics dashboards, and trend charts — pulls data from CRM, billing, and finance tools to create polished, data-driven founder letters |
 | **pitch-content-guide** | Write a slide-by-slide content spec for a fundraise deck — verbatim copy, chart specs, named image assets, review flags, and a pressure test — then emit the ready-to-paste prompt for the design session that builds it |
+| **portco-brand-extract** | Reverse-engineer a company's visual identity from its live website into a measured style guide, a categorised image-asset library, and a browsable brand board |
 | **seed-pitch-kit** | Generate complete seed-stage fundraising materials — investment memo, TEA & market sizing, financial model, pitch decks, outreach emails, and investor list — all built comprehensive-to-concise from a shared narrative foundation |
 | **tufte-viz** | Design and critique data visualizations using Edward Tufte's principles — data-ink ratio, chartjunk elimination, graphical integrity, small multiples, and sparklines for honest, high-density charts in decks, updates, and dashboards |
 
