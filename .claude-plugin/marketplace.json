@@ -10,13 +10,20 @@
       "source": ".",
       "displayName": "Third Sphere Portfolio Company Skills",
       "description": "Fundraising, brand, reporting, and writing skills Third Sphere builds for its portfolio companies.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "Third Sphere",
         "url": "https://thirdsphere.com"
       },
       "category": "productivity",
-      "tags": ["fundraising", "pitch-deck", "brand", "investor-updates", "startup"]
+      "tags": [
+        "fundraising",
+        "pitch-deck",
+        "brand",
+        "investor-updates",
+        "startup"
+      ],
+      "license": "MPL-2.0"
     }
   ]
 }

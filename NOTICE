@@ -1,0 +1,15 @@
+Third Sphere Portfolio Company Skills
+Copyright (c) 2026 Third Sphere
+
+This Source Code Form is subject to the terms of the Mozilla Public License,
+v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain
+one at https://mozilla.org/MPL/2.0/.
+
+MPL-2.0 Exhibit A allows this notice to live in a LICENSE/NOTICE file where a
+recipient would look for it, rather than in a header on every file. That is the
+approach taken here: the skills are prose, and a license header on top of every
+SKILL.md would be read by Claude as part of the skill.
+
+"Third Sphere", "CapStack Compass", and the Third Sphere logo are trademarks of
+Third Sphere. Section 2.3 of the MPL grants no rights in them.
+A fork should carry its own name.

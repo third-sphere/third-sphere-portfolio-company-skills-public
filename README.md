@@ -108,9 +108,30 @@ root, so adding a skill to `skills/` ships it through both install paths at once
 
 Learn more: [Claude Code documentation](https://claude.com/claude-code)
 
+## License
+
+[Mozilla Public License 2.0](LICENSE). In practical terms:
+
+- **Use it however you like, including commercially.** No permission needed, no
+  fee, no requirement to be a Third Sphere portfolio company.
+- **Internal use carries no obligations at all.** Fork it, rewrite every skill,
+  never tell anyone. The license only engages when you *distribute* your version.
+- **If you distribute a modified skill, that file stays open.** Publish your
+  changed files under the MPL so the next person gets what you got. This is
+  file-level copyleft: you can combine these skills with proprietary work, and
+  only the files you changed carry the obligation — not your product.
+- **Keep the notices.** Copyright and license notices travel with the files.
+- **The trademarks are not included.** "Third Sphere" and "CapStack Compass" are
+  ours; MPL section 2.3 grants no rights in them. Name your fork something else.
+
+Contributions are accepted under the same license.
+
 ## Disclaimer
 
-These skills are provided as-is. Third Sphere makes no warranty of fitness for any particular purpose. Each skill's behavior depends on Claude's underlying model and capabilities, which may change over time.
+These skills are provided as-is, without warranty of any kind, as stated in
+section 6 of the [LICENSE](LICENSE). Third Sphere makes no warranty of fitness
+for any particular purpose. Each skill's behavior depends on Claude's underlying
+model and capabilities, which may change over time.
 
 ---
 

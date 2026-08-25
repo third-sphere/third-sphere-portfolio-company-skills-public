@@ -117,3 +117,25 @@ def test_readme_table_has_no_phantom_rows():
     rows = set(re.findall(r"^\|\s*\*\*([a-z0-9-]+)\*\*\s*\|", README.read_text(), re.M))
     phantom = rows - {d.name for d in skill_dirs()}
     assert not phantom, f"README rows with no matching skill dir: {sorted(phantom)}"
+
+
+# ------------------------------------------------------------------- licensing
+def test_license_file_exists_and_is_mpl2():
+    lic = ROOT / "LICENSE"
+    assert lic.is_file(), "no LICENSE file — other orgs have no right to use this"
+    head = lic.read_text()[:200]
+    assert "Mozilla Public License Version 2.0" in head, (
+        "LICENSE is not the MPL-2.0 text the manifests declare"
+    )
+
+
+def test_declared_license_matches_across_manifests():
+    """A mismatch here means the plugin manager shows terms the repo doesn't grant."""
+    assert _plugin().get("license") == "MPL-2.0"
+    assert _entry().get("license") == "MPL-2.0"
+
+
+def test_notice_file_names_a_copyright_holder():
+    notice = ROOT / "NOTICE"
+    assert notice.is_file(), "NOTICE carries the copyright line MPL 3.4 protects"
+    assert re.search(r"Copyright \(c\) \d{4}", notice.read_text())
