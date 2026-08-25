@@ -20,6 +20,7 @@ Download a skill folder, zip it as `<skill-name>.skill`, and import it into Clau
 | Skill | What it does |
 |---|---|
 | **better-writing** | Diagnose and strengthen narrative structure in drafts (stories, essays, posts) — finds where writing takes default, low-risk choices and proposes concrete structural revisions |
+| **capstackcompass-public-portco-skill** | Look up climate credit and non-dilutive capital providers in the CapStack Compass database (capstackcompass.ai), and suggest new providers or corrections through Third Sphere's review queue |
 | **founder-update** | Build portfolio company investor updates (weekly/monthly) with OKRs, metrics dashboards, and trend charts — pulls data from CRM, billing, and finance tools to create polished, data-driven founder letters |
 | **pitch-content-guide** | Write a slide-by-slide content spec for a fundraise deck — verbatim copy, chart specs, named image assets, review flags, and a pressure test — then emit the ready-to-paste prompt for the design session that builds it |
 | **portco-brand-extract** | Reverse-engineer a company's visual identity from its live website into a measured style guide, a categorised image-asset library, and a browsable brand board |
