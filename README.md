@@ -4,39 +4,55 @@ A curated collection of Claude Code skills built and shared by Third Sphere with
 
 ## Installation
 
-### Option 1: Install as a plugin (recommended)
+The same marketplace works everywhere Claude supports plugins — Claude Code,
+Cowork, and chat on claude.ai or the desktop app. Nothing to download first, and
+no GitHub account needed: the repo is public.
 
-This repo is also a Claude Code plugin marketplace, so one command adds every
-skill and `/plugin update` keeps them current.
+**Marketplace:** `https://github.com/third-sphere/third-sphere-portfolio-company-skills-public`
 
-```bash
-claude plugin marketplace add third-sphere/third-sphere-portfolio-company-skills-public
+### Claude Code
+
+Two commands, from inside a session:
+
+```
+/plugin marketplace add third-sphere/third-sphere-portfolio-company-skills-public
 ```
 
-Then install:
-
-```bash
-claude plugin install portco-skills@third-sphere
+```
+/plugin install portco-skills@third-sphere
 ```
 
-Skills are namespaced by the plugin, so you invoke them as
-`/portco-skills:seed-pitch-kit`, `/portco-skills:pitch-content-guide`, and so on.
-Claude also picks them up on its own when a task matches — that is what each
-skill's `description` is for.
+If the install summary says `Run /reload-plugins to activate`, run that. Claude
+Code clones the marketplace, so `git` needs to be on your PATH — it almost
+certainly already is.
 
-To pull later updates:
+Skills are namespaced by the plugin: `/portco-skills:pitch-content-guide`. Add
+`--scope project` to the install to share it with everyone on a repo via
+`.claude/settings.json`.
 
-```bash
-claude plugin update portco-skills@third-sphere
-```
+### Cowork
 
-Install into a single project instead of your whole account with
-`--scope project`, which records it in that project's `.claude/settings.json` so
-your team gets it on checkout.
+**Customize** in the sidebar → **Plugins** → **Add marketplace** → paste the repo
+URL (or the `owner/repo` shorthand) → install **Third Sphere Portfolio Company
+Skills**. Click **Update** on the marketplace later to pull new versions.
 
-### Option 2: Copy the skill folders by hand
+### claude.ai and the Claude desktop app (chat)
 
-Use this when you want only some of the skills, or want to edit them locally.
+Requires a paid plan (Pro, Max, Team, or Enterprise).
+
+**Customize** in the left sidebar → **Plugins** tab → under **Personal plugins**
+click **+** → **Add marketplace** → **Add from a repository** → paste the repo
+URL. Then **Browse plugins** and **Install**.
+
+Installed skills show up via `/` or the **+** button in a conversation.
+
+Note that hooks and subagents only run in Cowork and Claude Code. This plugin
+ships neither, so nothing is lost in chat.
+
+### Copying the folders by hand
+
+Use this if you want only some of the skills, or want to edit them locally
+without forking.
 
 ```bash
 git clone https://github.com/third-sphere/third-sphere-portfolio-company-skills-public.git
@@ -46,10 +62,19 @@ cp -r third-sphere-portfolio-company-skills-public/skills/* ~/.claude/skills/
 Then restart Claude Code. Copied this way the skills are not namespaced, so they
 invoke as `/seed-pitch-kit` rather than `/portco-skills:seed-pitch-kit`.
 
-### Option 3: Import individual `.skill` files
+For claude.ai without a paid plan, individual skills can be uploaded one at a
+time under **Customize → Skills → + → Upload a skill**, as a `.zip` whose root is
+the skill folder itself. Code execution must be enabled in Settings →
+Capabilities. The plugin route above is easier where it is available.
 
-Download a skill folder, zip it as `<skill-name>.skill`, and import it into
-Claude Code via the skills panel. This is the path for Claude Desktop and Cowork.
+### What needs what
+
+Most of these skills are instructions and work anywhere. Two caveats:
+
+| Skill | Needs |
+|---|---|
+| `portco-brand-extract` | Browser tools to read computed CSS, plus network access for the asset crawl. Use it in **Claude Code**; it degrades badly where Claude cannot reach the live site. |
+| `capstackcompass-public-portco-skill` | Network access to reach the CapStack Compass database. |
 
 ## Available skills
 
