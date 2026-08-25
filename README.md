@@ -86,6 +86,7 @@ Most of these skills are instructions and work anywhere. Two caveats:
 | **pitch-content-guide** | Write a slide-by-slide content spec for a fundraise deck — verbatim copy, chart specs, named image assets, review flags, and a pressure test — then emit the ready-to-paste prompt for the design session that builds it |
 | **portco-brand-extract** | Reverse-engineer a company's visual identity from its live website into a measured style guide, a categorised image-asset library, and a browsable brand board |
 | **seed-pitch-kit** | Generate complete seed-stage fundraising materials — investment memo, TEA & market sizing, financial model, pitch decks, outreach emails, and investor list — all built comprehensive-to-concise from a shared narrative foundation |
+| **startup-deck-generator** | Tailor a pitch deck for one named target investor — research the fund, diff the deck against what they need, build the tailored HTML version from a brandable shell, and write the approach and objection strategy |
 | **tufte-viz** | Design and critique data visualizations using Edward Tufte's principles — data-ink ratio, chartjunk elimination, graphical integrity, small multiples, and sparklines for honest, high-density charts in decks, updates, and dashboards |
 
 ## Making it yours

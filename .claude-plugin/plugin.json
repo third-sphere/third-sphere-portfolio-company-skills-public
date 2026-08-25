@@ -1,8 +1,8 @@
 {
   "name": "portco-skills",
   "displayName": "Third Sphere Portfolio Company Skills",
-  "version": "1.1.0",
-  "description": "Fundraising, brand, reporting, and writing skills Third Sphere builds for its portfolio companies — deck content specs, website-measured brand extraction, seed fundraise kits, investor updates, and honest data visualization.",
+  "version": "1.2.0",
+  "description": "Fundraising, brand, reporting, and writing skills Third Sphere builds for its portfolio companies — investor-tailored HTML decks, deck content specs, website-measured brand extraction, seed fundraise kits, investor updates, and honest data visualization.",
   "author": {
     "name": "Third Sphere",
     "url": "https://thirdsphere.com"

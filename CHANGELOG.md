@@ -5,6 +5,15 @@ Versions refer to the `portco-skills` plugin as a whole. Bump the version in
 version set in one and not the other means installed copies never see the update.
 `tests/test_plugin_manifest.py` enforces that they agree.
 
+## 1.2.0
+
+- **startup-deck-generator** — tailors a pitch deck for one named target investor:
+  researches the fund, diffs the deck against what that audience needs, builds the
+  tailored version on a token-driven HTML shell, and writes the approach strategy.
+  Closes the loop the bundle previously left open — `pitch-content-guide` specs deck
+  content and stops, `portco-brand-extract` measures the brand, and nothing rendered
+  a deck.
+
 ## 1.1.0
 
 Licensing. The repo shipped with no LICENSE, which meant that despite being
