@@ -5,6 +5,28 @@ Versions refer to the `portco-skills` plugin as a whole. Bump the version in
 version set in one and not the other means installed copies never see the update.
 `tests/test_plugin_manifest.py` enforces that they agree.
 
+## 1.3.0
+
+- **model-router** — picks the executor and effort for a unit of work: which Claude
+  tier, what effort level, or whether the work belongs on another vendor entirely.
+  Built on the asymmetry that makes model choice worth thinking about at all — a
+  too-weak model on judgment work doesn't error, it quietly produces a worse answer
+  that looks fine — so the default stance is accuracy-first with cost breaking ties.
+
+  Three questions about the work (would a failure be noticed, is judgment happening
+  or just transformation, who is watching while it runs), a capability-gate table
+  that overrides tier logic, and the effort ladder as the lever to try before
+  switching models.
+
+  It deliberately refuses to route on benchmark leads. The frontier coding gap sits
+  inside measurement noise and changes hands every few weeks, while switching costs
+  are permanent — so "vendor X benchmarks better" is not accepted as a reason to
+  move a workflow. The reference tables carry prices and capabilities and no
+  leaderboard positions, for the same reason.
+
+  First skill in the bundle that isn't about fundraising, brand, or reporting; the
+  plugin description now covers AI operations too.
+
 ## 1.2.0
 
 - **startup-deck-generator** — tailors a pitch deck for one named target investor:
