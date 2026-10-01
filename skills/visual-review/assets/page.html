@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root{
+  --table:#e9eef2; --sheet:#f7f9fa; --ink:#1c2630; --muted:#5b6873; --rule:#c9d3da;
+  --pencil:#c8321e; --pencil-soft:#f6ddd8; --leader:#23282d; --tile:#2d343a; --tile-ink:#e6ebee; --ok:#2f6f4f;
+  color-scheme:light;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --table:#1a2026; --sheet:#232b32; --ink:#e7edf1; --muted:#9aa7b1; --rule:#38434c;
+  --pencil:#ff6a50; --pencil-soft:#3d2622; --leader:#0f1316; --tile:#2d343a; --tile-ink:#e6ebee; --ok:#6fc49a; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --table:#1a2026; --sheet:#232b32; --ink:#e7edf1; --muted:#9aa7b1; --rule:#38434c;
+  --pencil:#ff6a50; --pencil-soft:#3d2622; --leader:#0f1316; --tile:#2d343a; --tile-ink:#e6ebee; --ok:#6fc49a; color-scheme:dark;}
+html{height:100%;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--table);color:var(--ink);font:16px/1.5 "DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,h3{font-family:"DM Serif Display",Georgia,"Times New Roman",serif;font-weight:400;margin:0}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--leader);color:#eef2f4;
+  display:flex;gap:16px;align-items:center;justify-content:space-between;padding:12px 20px;flex-wrap:wrap}
+.bar strong{font-weight:500}
+.bar .count{font-variant-numeric:tabular-nums}
+.bar button{font:inherit;border:1px solid #eef2f4;background:transparent;color:#eef2f4;padding:6px 14px;border-radius:4px;cursor:pointer}
+.bar button:hover{background:#eef2f4;color:var(--leader)}
+main{max-width:1180px;margin:0 auto;padding:28px 20px 80px}
+header.intro{max-width:70ch;margin-bottom:28px}
+header.intro h1{font-size:clamp(2rem,4vw,3rem);line-height:1.05;margin-bottom:12px}
+header.intro p{color:var(--muted);margin:0 0 8px}
+.group{margin:40px 0 12px;font-size:1.6rem}
+.item{background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:18px 18px 14px;margin-bottom:18px}
+.item-head{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:baseline}
+.num{font-family:"DM Serif Display",Georgia,serif;font-size:1.7rem;color:var(--pencil);min-width:2ch}
+.item-head h3{font-size:1.25rem}
+.item-meta{color:var(--muted);font-size:.9rem}
+.flag{margin:10px 0 0;padding:8px 12px;border-left:3px solid var(--pencil);background:var(--pencil-soft);font-size:.92rem}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:12px}
+label.field{flex:1 1 340px;display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--muted)}
+input[type=text],textarea{font:inherit;color:var(--ink);background:var(--table);border:1px solid var(--rule);border-radius:4px;padding:7px 10px;width:100%}
+textarea{min-height:64px;resize:vertical}
+fieldset.action{border:0;margin:0;padding:0;display:flex;gap:6px;flex-wrap:wrap}
+fieldset.action label{border:1px solid var(--rule);border-radius:999px;padding:4px 12px;font-size:.88rem;cursor:pointer;user-select:none;position:relative}
+fieldset.action input{position:absolute;opacity:0;pointer-events:none}
+fieldset.action label:has(input:checked){border-color:var(--ink);background:var(--ink);color:var(--sheet)}
+fieldset.action label:has(input:focus-visible){outline:2px solid var(--pencil);outline-offset:2px}
+.strip-wrap{overflow-x:auto;margin:14px -18px 0;padding:6px 18px 10px;background:var(--leader)}
+.strip{display:flex;gap:10px;padding:8px 0}
+.cell{flex:0 0 auto;display:flex;flex-direction:column;gap:4px}
+.cell a{color:#b9d6ff;font-size:.78rem;padding-left:4px}
+.tile{background:var(--tile);color:var(--tile-ink);border:2px solid transparent;border-radius:4px;padding:6px;cursor:pointer;position:relative;text-align:left;font:inherit}
+.tile:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.tile .frame{display:block;background-repeat:no-repeat;background-color:#000;border-radius:2px}
+.tile .cap{display:block;font-size:.76rem;line-height:1.3;margin-top:6px;min-height:2.6em;max-height:6.6em;overflow:hidden}
+.tile .cap b{font-weight:500;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile .cflag{color:#ffb4a6;display:block}
+.tile .badge{position:absolute;top:10px;left:10px;background:#e6ebee;color:#1c2630;font-size:.7rem;padding:1px 6px;border-radius:2px}
+.tile.picked{border-color:var(--pencil);box-shadow:0 0 0 2px var(--pencil) inset}
+.tile .order{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;background:var(--pencil);color:#fff;
+  display:none;align-items:center;justify-content:center;font-weight:700;font-size:.85rem}
+.tile.picked .order{display:flex}
+.hint{color:var(--muted);font-size:.85rem;margin:8px 0 0}
+section.decisions .q{background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:16px 18px;margin-bottom:14px}
+section.decisions h3{font-size:1.15rem;margin-bottom:8px}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opts label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.opts input{margin-top:5px;accent-color:var(--pencil)}
+.export{background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:18px;margin-top:28px}
+.export textarea{min-height:180px;font-size:.8rem;font-family:ui-monospace,Menlo,Consolas,monospace}
+.export button{font:inherit;background:var(--pencil);color:#fff;border:0;border-radius:4px;padding:8px 16px;cursor:pointer;margin-right:8px}
+.export button.plain{background:transparent;color:var(--ink);border:1px solid var(--rule)}
+.status{color:var(--ok);font-size:.9rem}
+@media (max-width:640px){.item-head{grid-template-columns:auto 1fr}.item-meta{grid-column:1/-1}}
+</style></head>
+<body>
+<div class="bar"><strong id="bartitle"></strong><span class="count" id="count"></span><button type="button" id="jump">Go to export</button></div>
+<main>
+<header class="intro"><h1 id="heading"></h1><div id="intro"></div></header>
+<div id="items"></div>
+<section class="decisions" id="decisions-wrap"><h2 class="group">Still to decide</h2><div id="decisions"></div></section>
+<section class="export" id="export">
+  <h2 style="font-size:1.4rem;margin-bottom:6px">Send it back</h2>
+  <p class="hint" style="margin-bottom:10px">Copy this and paste it into the chat. Anything you left alone stays as it is.</p>
+  <textarea id="json" readonly aria-label="Your selections as JSON"></textarea>
+  <div class="row"><button type="button" id="copy">Copy JSON</button><button type="button" id="reset" class="plain">Clear my answers</button><span class="status" id="status" role="status"></span></div>
+</section>
+</main>
+<script>
+const SPEC = __SPEC__;
+const KEY = SPEC.storage_key;
+const ACTIONS = SPEC.actions || [["keep","Keep current"],["pick","Use my picks"],["more","Show me other options"],["drop","Drop this item"]];
+const blank = () => ({items:{}, decisions:{}, overall:""});
+let state = load();
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || blank(); }catch(e){ return blank(); } }
+function persist(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const byId = {}; SPEC.items.forEach(it => byId[it.id] = it);
+
+function itemState(it){ return state.items[it.id] ||= {action:"keep", picks:[], text:(it.text_field||{}).value || "", request:"", notes:""}; }
+
+function tile(it, o){
+  const w = o.w, h = o.h, frames = o.frames || 1;
+  return `<div class="cell">
+    <button type="button" class="tile" data-item="${esc(it.id)}" data-opt="${esc(o.id)}" aria-pressed="false" aria-label="${esc(o.label || o.id)}" style="width:${w + 16}px">
+      <span class="frame" data-frames="${frames}" data-w="${w}" style="width:${w}px;height:${h}px;background-size:${w * frames}px ${h}px;background-image:url('${o.image}')"></span>
+      ${(it.current || []).includes(o.id) ? `<span class="badge">${esc(SPEC.current_label || "current")}</span>` : ""}
+      <span class="order"></span>
+      <span class="cap"><b>${esc(o.label || "")}</b>${esc(o.caption || "")}${o.flag ? `<span class="cflag">⚑ ${esc(o.flag)}</span>` : ""}</span>
+    </button>
+    ${o.link ? `<a href="${esc(o.link)}" target="_blank" rel="noopener">${esc(o.link_label || "Open")}</a>` : ""}</div>`;
+}
+
+function buildItems(){
+  let group = null, n = 0, html = "";
+  SPEC.items.forEach(it => {
+    if (it.group && it.group !== group){ group = it.group; html += `<h2 class="group">${esc(group)}</h2>`; }
+    n++; const s = itemState(it); const tf = it.text_field;
+    html += `<article class="item" id="i-${esc(it.id)}">
+      <div class="item-head"><span class="num">${n}</span><h3>${esc(it.label)}</h3><span class="item-meta">${esc(it.meta || "")}</span></div>
+      ${it.flag ? `<p class="flag">${esc(it.flag)}</p>` : ""}
+      <div class="row"><fieldset class="action" aria-label="What to do with this item">
+        ${ACTIONS.map(([v,l]) => `<label><input type="radio" name="act-${esc(it.id)}" value="${v}" ${s.action===v?"checked":""}>${esc(v === "keep" && !(it.current || []).length ? (SPEC.no_current_label || "No choice yet") : l)}</label>`).join("")}
+      </fieldset></div>
+      <div class="row">
+        ${tf ? `<label class="field">${esc(tf.label)}<input type="text" data-field="text" data-item="${esc(it.id)}" value="${esc(s.text)}"></label>` : ""}
+        <label class="field">What would you want instead (if asking for other options)<input type="text" data-field="request" data-item="${esc(it.id)}" value="${esc(s.request)}" placeholder="Describe what you’re looking for"></label>
+      </div>
+      <div class="strip-wrap"><div class="strip">${it.options.map(o => tile(it, o)).join("")}</div></div>
+      <p class="hint">${it.options.length} options${it.max_picks === 1 ? ", pick one" : it.max_picks ? `, pick up to ${it.max_picks}; numbers set the order` : "; numbers set the order"}.</p>
+      <label class="field" style="margin-top:8px">Notes<textarea data-field="notes" data-item="${esc(it.id)}" placeholder="Anything else about this one">${esc(s.notes)}</textarea></label>
+    </article>`;
+  });
+  document.getElementById("items").innerHTML = html;
+}
+
+function buildDecisions(){
+  const qs = SPEC.decisions || [];
+  const g = qs.map(q => {
+    const s = state.decisions[q.id] ||= {decision:"", notes:""};
+    return `<div class="q"><h3>${esc(q.question)}</h3><div class="opts">${q.options.map(([v,l]) =>
+      `<label><input type="radio" name="d-${esc(q.id)}" value="${esc(v)}" data-d="${esc(q.id)}" ${s.decision===v?"checked":""}><span>${esc(l)}</span></label>`).join("")}</div>
+      <label class="field" style="margin-top:10px">Notes<input type="text" data-dnotes="${esc(q.id)}" value="${esc(s.notes)}"></label></div>`;
+  }).join("");
+  const overall = `<div class="q"><h3>Anything else</h3><textarea id="overall" placeholder="Overall direction or anything the options missed">${esc(state.overall)}</textarea></div>`;
+  document.getElementById("decisions").innerHTML = g + overall;
+}
+
+function exportJSON(){
+  return {
+    title: SPEC.title, run: SPEC.run, exported_at: new Date().toISOString(),
+    items: SPEC.items.map(it => { const s = itemState(it); const tf = it.text_field; return {
+      id: it.id, action: s.action, picks: s.picks, current: it.current || [],
+      text: tf ? s.text : null, text_changed: tf ? s.text !== (tf.value || "") : false,
+      request: s.request, notes: s.notes }; }),
+    decisions: (SPEC.decisions || []).map(q => ({ id: q.id, question: q.question,
+      decision: state.decisions[q.id]?.decision || "", notes: state.decisions[q.id]?.notes || "" })),
+    freetext: { overall: state.overall }
+  };
+}
+
+function render(){
+  let touched = 0;
+  SPEC.items.forEach(it => {
+    const s = itemState(it); const tf = it.text_field;
+    if (s.action !== "keep" || s.picks.length || s.notes || s.request || (tf && s.text !== (tf.value || ""))) touched++;
+    document.querySelectorAll(`.tile[data-item="${CSS.escape(it.id)}"]`).forEach(t => {
+      const k = s.picks.indexOf(t.dataset.opt);
+      t.classList.toggle("picked", k >= 0); t.setAttribute("aria-pressed", k >= 0);
+      t.querySelector(".order").textContent = k >= 0 ? (it.max_picks === 1 ? "✓" : k + 1) : "";
+    });
+  });
+  const qs = SPEC.decisions || [];
+  const done = qs.filter(q => state.decisions[q.id]?.decision).length;
+  document.getElementById("count").textContent = `${touched} of ${SPEC.items.length} touched` + (qs.length ? ` · ${done} of ${qs.length} decisions` : "");
+  document.getElementById("json").value = JSON.stringify(exportJSON(), null, 1);
+}
+function save(){ persist(); render(); }
+
+document.addEventListener("click", e => {
+  const t = e.target.closest(".tile"); if (!t) return;
+  const it = byId[t.dataset.item], s = itemState(it), id = t.dataset.opt, k = s.picks.indexOf(id);
+  if (k >= 0) s.picks.splice(k, 1);
+  else { if (it.max_picks && s.picks.length >= it.max_picks) s.picks.shift(); s.picks.push(id); }   // at the cap, the oldest pick drops
+  s.action = s.picks.length ? "pick" : (s.action === "pick" ? "keep" : s.action);
+  document.querySelectorAll(`input[name="act-${CSS.escape(it.id)}"]`).forEach(r => r.checked = r.value === s.action);
+  save();
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (t.name?.startsWith("act-")) state.items[t.name.slice(4)].action = t.value;
+  if (t.dataset.d) state.decisions[t.dataset.d].decision = t.value;
+  save();
+});
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.dataset.field) state.items[t.dataset.item][t.dataset.field] = t.value;
+  if (t.dataset.dnotes) state.decisions[t.dataset.dnotes].notes = t.value;
+  if (t.id === "overall") state.overall = t.value;
+  persist(); render();
+});
+// Multi-frame options (video flipbooks) cycle while hovered or focused.
+let flip = null;
+function startFlip(t){ const f = t.querySelector(".frame"); const n = +f.dataset.frames; if (reduce || n < 2) return; stopFlip();
+  const w = +f.dataset.w; let i = 0; flip = {f, t: setInterval(() => { i = (i + 1) % n; f.style.backgroundPosition = `${-w * i}px 0`; }, 450)}; }
+function stopFlip(){ if (flip){ clearInterval(flip.t); flip.f.style.backgroundPosition = "0 0"; flip = null; } }
+document.addEventListener("pointerover", e => { const t = e.target.closest(".tile"); if (t && (!flip || flip.f !== t.querySelector(".frame"))) startFlip(t); });
+document.addEventListener("pointerout", e => { const t = e.target.closest(".tile"); if (t && !t.contains(e.relatedTarget)) stopFlip(); });
+document.addEventListener("focusin", e => { const t = e.target.closest(".tile"); if (t) startFlip(t); });
+document.addEventListener("focusout", e => { if (e.target.closest(".tile")) stopFlip(); });
+document.getElementById("jump").onclick = () => document.getElementById("export").scrollIntoView();
+document.getElementById("copy").onclick = async () => {
+  const ta = document.getElementById("json"), st = document.getElementById("status");
+  try{ await navigator.clipboard.writeText(ta.value); st.textContent = "Copied. Paste it into the chat."; }
+  catch(e){ ta.select(); try{ document.execCommand("copy"); st.textContent = "Copied. Paste it into the chat."; }
+    catch(e2){ st.textContent = "Select the text above and copy it manually."; } }
+};
+document.getElementById("reset").onclick = () => { if (confirm("Clear all your answers on this page?")){ state = blank(); try{ localStorage.removeItem(KEY); }catch(e){} buildItems(); buildDecisions(); render(); } };
+document.getElementById("bartitle").textContent = SPEC.title;
+document.getElementById("heading").textContent = SPEC.heading || SPEC.title;
+document.getElementById("intro").innerHTML = (SPEC.intro || ["Click an option to choose it. Your answers save in this browser as you go.",
+  "When you’re done, copy the JSON at the bottom and paste it into the chat."]).map(p => `<p>${esc(p)}</p>`).join("");
+if (!(SPEC.decisions || []).length) document.querySelector("#decisions-wrap h2").textContent = "Anything else";
+buildItems(); buildDecisions(); render();
+</script>
+</body></html>
