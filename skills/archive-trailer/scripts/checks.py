@@ -69,8 +69,9 @@ def make_plan_tests():
             for b in self.beats:
                 if not b.get("card"):
                     continue
-                size = 110 if (b["id"] == title_id or b.get("title_style")) else 84
-                for text, font, sz in [(b["card"], serif, size)] + [(x, sans, 40) for x in b.get("subcards", [])]:
+                titled = b["id"] == title_id or b.get("title_style")
+                size, sub = project.title_sizes(b, self.s) if titled else (84, 40)
+                for text, font, sz in [(b["card"], serif, size)] + [(x, sans, sub) for x in b.get("subcards", [])]:
                     lines = project.wrap(text, font, sz)
                     self.assertLessEqual(len(lines), 2, f"{b['id']}: {text!r} needs more than two lines")
                     for ln in lines:

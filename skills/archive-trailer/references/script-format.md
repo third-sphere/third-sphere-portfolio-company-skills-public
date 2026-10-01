@@ -29,6 +29,8 @@ The `//` comments are explanations only; the real file is plain JSON.
     },
     {"id": "16_title", "act": 3, "card": "ACME ONE", "dur_s": 5,
      "subcards": ["A one-line subtitle", "Acme · 2026"],
+     "title_size": 140, "sub_size": 48,   // optional, title-style cards only (defaults: style.title_size
+                                          // / style.title_sub_size, else 110 / 40); the fit check uses them
      "queries": ["…"]}
   ],
   "decisions": {                    // written by apply_review.py; read by the assembler

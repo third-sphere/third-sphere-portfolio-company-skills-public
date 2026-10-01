@@ -68,3 +68,11 @@ def wrap(text: str, font_file: str, size: int, max_w: float = 1920 * 0.86) -> li
     ws = text.split()
     best = min(range(1, len(ws)), key=lambda k: max(f.getlength(" ".join(ws[:k])), f.getlength(" ".join(ws[k:]))))
     return [" ".join(ws[:best]), " ".join(ws[best:])]
+
+
+def title_sizes(beat: dict, s=None) -> tuple[int, int]:
+    """(card px, subcard px) for a title-style card: the beat's own title_size/sub_size if set,
+    else style.title_size/title_sub_size, else 110/40. The fit check uses the same sizes."""
+    st = (s or script()).get("style", {})
+    return (int(beat.get("title_size", st.get("title_size", 110))),
+            int(beat.get("sub_size", st.get("title_sub_size", 40))))

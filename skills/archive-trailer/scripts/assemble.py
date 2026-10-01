@@ -93,7 +93,7 @@ def card_segment(path: Path, text: str, dur: float):
 
 
 def shot_segment(path: Path, src: Path, dur: float, overlay=None, fy: float = 0.5,
-                 style: str = "title", bw: bool = False, in_s=None):
+                 style: str = "title", bw: bool = False, in_s=None, sizes=(110, 40)):
     avail = duration(src)
     start = max(0.0, (avail - dur) / 2)          # middle of the clip, where the match usually is
     if in_s is not None:                         # per-pick in-point from script.json overrides the middle
@@ -102,7 +102,7 @@ def shot_segment(path: Path, src: Path, dur: float, overlay=None, fy: float = 0.
     if bw:                                       # past = black-and-white (review v1 decision)
         vf += ",hue=s=0"
     if overlay and style == "title":             # title beat: dim the picture and set type on it
-        vf += ",eq=brightness=-0.18," + text_lines(card_lines(overlay[0], overlay[1:], 110, 40), H // 2, True)
+        vf += ",eq=brightness=-0.18," + text_lines(card_lines(overlay[0], overlay[1:], *sizes), H // 2, True)
     elif overlay and style == "card":            # Act 3 card over footage: lighter dim, card-size type
         vf += ",eq=brightness=-0.12," + text_lines(card_lines(overlay[0]), H // 2, True)
     vf += f",fade=t=out:st={dur - 0.3:.2f}:d=0.3" if overlay and style == "title" else ""
@@ -159,6 +159,7 @@ def plan(version=None):
                     "in_s": b.get("in_s", {}).get(b["picks"][n])}              # optional in-point
             if is_title:
                 args["overlay"], args["style"] = [b["card"], *b.get("subcards", [])], "title"
+                args["sizes"] = project.title_sizes(b, script)                # per-card override, else style
             elif overlay_card:
                 args["overlay"], args["style"] = [b["card"]], "card"
             yield f"{b['id']}_shot{n}", "shot", args
@@ -184,7 +185,8 @@ def build(version=None) -> Path:
                 src = fetch(a["clip"])
                 fy = a["fy"] if a["fy"] is not None else framing.frame_y(src, a["clip"]["id"], a["dur"], a.get("in_s"))
                 shot_segment(tmp, src, a["dur"], a.get("overlay"), fy,
-                             a.get("style", "title"), a.get("bw", False), a.get("in_s"))
+                             a.get("style", "title"), a.get("bw", False), a.get("in_s"),
+                         tuple(a.get("sizes", (110, 40))))
             tmp.replace(seg)
             key.write_text(want)
         listing.append(f"file '{seg}'")

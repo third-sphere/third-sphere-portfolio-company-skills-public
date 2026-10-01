@@ -24,6 +24,8 @@ version set in one and not the other means installed copies never see the update
   frame, cards on screen too briefly for a slow reader, picks too short to fill their beat,
   faces cut off by the crop, and approvals that silently carry over to a different clip.
   Needs `ffmpeg` and network access; clip-selection pages use a separate `visual-review` skill.
+  Title cards can set their own `title_size` and `sub_size`; the renderer and the fit check
+  use the same sizes, so a larger title can't slip past the width check.
 - **visual-review** — builds a review page for choosing among visual options across many
   items (clips, photos, design variants), answering open decisions, and exporting JSON to
   paste back into chat. Rounds merge rather than replace, so a round that only edits one
