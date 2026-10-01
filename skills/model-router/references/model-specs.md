@@ -1,135 +1,140 @@
-# Model specs — verified reference
+# Claude facts
 
-**Last verified: 2026-07-24** against `platform.claude.com/docs/en/about-claude/models/`.
+**Verified: 2026-09-06; Opus 5.5 row 2026-09-23; Sonnet 5.5 row, effort
+sentence, and Haiku 4.5 retirement 2026-09-29. Scope: direct Claude API**, unless stated otherwise.
+These are a dated starting point, not a model lock. Recheck decisive facts under
+[evidence rules](evidence.md); discover account availability separately.
 
-This file exists so routing advice cites real numbers instead of remembered ones.
-Model lineups move fast and confidently-wrong pricing is worse than saying "let me
-check." **If the date above is more than ~6 weeks old, re-fetch before quoting
-specifics:**
-
-- `https://platform.claude.com/docs/en/about-claude/models/overview` — the spec table
-- `https://platform.claude.com/docs/en/about-claude/models/choosing-a-model` — selection matrix + effort guidance
-- `https://code.claude.com/docs/en/desktop-scheduled-tasks` — where per-task model lives
-
-## Contents
-
-- [Spec table](#spec-table)
-- [Per-model traps](#per-model-traps)
-- [Effort ladder](#effort-ladder)
-- [Cost intuition](#cost-intuition)
-- [Where model gets set](#where-model-gets-set)
-
-## Spec table
-
-| | Fable 5 | Opus 5 | Sonnet 5 | Haiku 4.5 |
-|---|---|---|---|---|
-| API ID | `claude-fable-5` | `claude-opus-5` | `claude-sonnet-5` | `claude-haiku-4-5` |
-| Positioning (Anthropic's words) | Next-generation intelligence for long-running agents | For complex agentic coding and enterprise work | The best combination of speed and intelligence | The fastest model with near-frontier intelligence |
-| Price in / out per MTok | $10 / $50 | $5 / $25 | $3 / $15 (intro $2/$10 through Aug 31 2026) | $1 / $5 |
-| Context window | 1M | 1M | 1M | **200k** |
-| Max output | 128k | 128k | 128k | 64k |
-| Thinking | Adaptive, always on | Adaptive, on by default | Adaptive, on by default | Manual extended thinking |
-| Effort ladder | — | `low`→`max`, defaults `high` | supported, defaults `high` | — |
-| Reliable knowledge cutoff | **Jan 2026** | **May 2026** | Jan 2026 | Feb 2025 |
-| Relative latency | Slowest | Moderate (fast mode avail.) | Fast | Fastest |
-
-Batch API on Opus 5 / Sonnet 5 / Fable 5 supports up to 300k output tokens with the
-`output-300k-2026-03-24` beta header — relevant when a job's output is the bottleneck.
-
-## Per-model traps
-
-### Fable 5
-
-- **Older knowledge than Opus 5.** Jan 2026 vs May 2026. Counterintuitive given the
-  price and positioning. For anything touching the current state of the world, the
-  cheaper model is the fresher one.
-- **Silent downgrade on cyber/bio.** Announced safeguards route high-risk-area
-  requests to Opus 4.8. Security work on Fable 5 means premium pricing for an older
-  model. Never recommend Fable 5 for security review.
-- **2× Opus 5 and slower.** Anthropic's own docs frame Opus 5 as "frontier
-  intelligence at half the cost of Claude Fable 5." Fable 5 is for when Opus 5 at
-  `max` effort has demonstrably failed — not as the default top of a ladder.
-
-### Opus 5
-
-- **Self-verifies.** The docs say to *remove* verification instructions carried over
-  from earlier models ("include a final verification step", "use a subagent to
-  verify") because they cause over-verification. See `prompt-retrofits.md`.
-- **Thinking on by default.** `max_tokens` is a hard cap on thinking + response
-  together, so budgets tuned on a no-thinking model can truncate.
-- **`thinking: disabled` requires effort `high` or below.** Combining it with
-  `xhigh`/`max` returns a 400. Also, with thinking disabled it can occasionally emit
-  a tool call as plain text — prefer lowering effort over disabling thinking.
-- **Behavioral drift to expect:** longer default deliverables, more progress
-  narration, more eager subagent delegation.
-
-### Sonnet 5
-
-- **New tokenizer: ~30% more tokens for the same text** vs Sonnet 4.6. Per-token
-  price is unchanged, so equivalent requests cost more and the 1M window holds less
-  text. Any token budget or "keep it under N tokens" instruction predating Sonnet 5
-  is miscalibrated.
-- **Sampling params rejected.** Non-default `temperature` / `top_p` / `top_k` → 400.
-  Steer via system prompt instead.
-- **Manual extended thinking removed** (`thinking: {type: "enabled", budget_tokens}`)
-  → 400. Use adaptive thinking + effort.
-- **Assistant prefill unsupported** → 400. Use structured outputs.
-- First Sonnet-tier model with real-time cybersecurity safeguards; refusals come back
-  as HTTP 200 with `stop_reason: "refusal"`, not an error — worth knowing if a
-  pipeline branches on error codes.
-
-### Haiku 4.5
-
-- **200k context, not 1M.** The single most common way a Haiku routing decision goes
-  wrong: the work is mechanical, so Haiku looks right, but the payload doesn't fit.
-  Check payload size before routing bulk work here.
-- **Feb 2025 knowledge cutoff** — meaningfully behind the rest.
-- Uses manual extended thinking rather than adaptive.
-- Weak on hard multi-step reasoning. Strong on classification, extraction, routing,
-  triage, and latency-stable high-volume work.
-
-## Effort ladder
-
-Available on Opus 5 (`low`, `medium`, `high`, `xhigh`, `max`) and recent Sonnet.
-Defaults to `high` on the API and Claude Code.
-
-| Level | When |
-|---|---|
-| `low` / `medium` | Cost-pressured reasoning work. Opus 5 specifically improved quality here — **try Opus 5 at `medium` before dropping to Sonnet 5.** |
-| `high` | Default. Fine for most orchestration and drafting. |
-| `xhigh` | Documented sweet spot for coding and high-autonomy agentic work. Recommend explicitly for unattended execution; the default undersells it. |
-| `max` | Deepest reasoning, Opus 5 only. Pair with a large `max_tokens` so there's room to think and act across tool calls. |
-
-Anthropic's framing, worth repeating to anyone weighing a downgrade: *"Tuning effort
-is often a better lever than switching models."*
-
-## Cost intuition
-
-Relative output-token cost, Haiku = 1×:
-
-| Haiku 4.5 | Sonnet 5 | Opus 5 | Fable 5 |
+| Model | Direct API ID | Input/output USD per million tokens | Context / max output |
 |---|---|---|---|
-| 1× | 3× (2× at intro pricing) | 5× | 10× |
+| Fable 5.1 | `claude-fable-5-1` | $10 / $50 | 1M / 128K |
+| Opus 5.5 | `claude-opus-5-5` | $4 / $20 (cache read $0.20) | 1M / 128K |
+| Opus 5 (previous) | `claude-opus-5` | $5 / $25 | 1M / 128K |
+| Sonnet 5.5 | `claude-sonnet-5-5` | $2 / $10 (cache read $0.20) | 1M / 128K |
+| Sonnet 5 (previous) | `claude-sonnet-5` | $2 / $10 | 1M / 128K |
+| Haiku 4.5 | `claude-haiku-4-5-20251001` | $1 / $5 | 200K / 64K |
 
-Two things this table hides, and both usually dominate it:
+The overview lists text/image input and text output for this lineup. Haiku does
+not support the effort control. Opus 5.5 defaults to `medium` effort and its
+thinking is always on (adaptive; it cannot be disabled). Sonnet 5.5 defaults to
+`high` in the API but `medium` in Claude Code and the Claude apps; its thinking
+is adaptive by default, and its lowest setting is `between_tools` (`disabled`
+is rejected). The other listed models default to `high` in the API. Effort names are not equivalent across
+models: Opus 5.5 thinks more per turn at a given level than Opus 5. Anthropic
+recommends starting with Opus 5 and considering Fable 5.1 when demanding work
+or evaluations warrant it (verified 2026-09-06; the Opus 5.5 launch makes it the
+current Opus). This is provider guidance, not a reason to move a successful
+Codex workflow.
 
-1. **Frequency swamps tier.** A weekly Opus 5 run costs less than a 30-minute Haiku
-   loop. Compute cost as tier × frequency before arguing about tier.
-2. **Context is often the real bill.** Digesting bulk content with a small local
-   model before it reaches Claude can cut more cost than any tier change, because
-   it removes the tokens rather than repricing them.
+Source: [Claude model overview](https://platform.claude.com/docs/en/models/overview).
+Opus 5.5 (verified 2026-09-23): [announcement](https://www.anthropic.com/claude-opus-5-5),
+[what's new](https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5),
+[migration guide](https://platform.claude.com/docs/en/models/opus-5-5/migration-guide),
+[effort](https://platform.claude.com/docs/en/build-with-claude/effort).
+Sonnet 5.5 (verified 2026-09-29): [announcement](https://www.anthropic.com/claude-sonnet-5-5),
+[migration guide](https://platform.claude.com/docs/en/models/sonnet-5-5/migration-guide).
 
-The documented cascade pattern for high-volume classification: run Haiku first, re-route
-low-confidence results (< ~0.85) to a stronger model. Reported to cut 60–70% of cost on
-classification pipelines while preserving accuracy on the hard cases.
+**Haiku 4.5 retires "not sooner than October 15, 2026"** per the overview
+(verified 2026-09-29), and Haiku 5.5 has not shipped. Before routing new
+unattended work to Haiku 4.5, name what replaces it on retirement; a pinned
+`claude-haiku-4-5-20251001` stops working, and the `haiku` alias will move.
+Prices above exclude caching, batch, and other billing variations. Verify the
+specific route before estimating cost; do not infer subscription pricing.
 
-## Where model gets set
+## Dated per-model caveats
 
-| Surface | Mechanism |
-|---|---|
-| Scheduled task / routine | Per-task model picker in **Routines → task → Edit**, beside the instructions box. **Not** in the task's `SKILL.md` (frontmatter holds only `name` + `description`), and **not** exposed by `update_scheduled_task` — so no programmatic batch edit. |
-| Interactive session | `/model` at runtime — overrides everything else |
-| Session default | `model` field in `settings.json` |
-| Environment | `ANTHROPIC_MODEL` env var (overridden by `/model`) |
-| Subagent | `model:` field in the agent definition's frontmatter, or the `model` param on the Agent/Task call |
-| API | `model` param, plus `output_config.effort` |
+**Verified: 2026-09-03. Scope: direct Claude API.** Observed behaviors and
+published rates from the Fable 5.1 launch cycle, retained because each one
+changed a routing decision. Recheck any that decides a close call;
+[evidence rules](evidence.md) apply.
+
+- **Sonnet 5 tokenization.** Its tokenizer produces roughly 30% more tokens for
+  the same text than earlier Sonnets. Token budgets and cost estimates carried
+  over from those models under-provision it.
+- **Opus 5 self-verification.** It verifies its own work by default, so a generic
+  "check your work" instruction tends to buy a second pass rather than more
+  assurance. Keep the observable acceptance checks; drop only the generic
+  reminder, and only with evidence it is causing waste.
+- **Fable 5.1 cache reads at $0.25 per million** — half Opus 5's $0.50, against
+  2× Opus 5 on uncached input and output. A long agentic loop that replays the
+  same context can land below what list price implies, so price the actual task
+  instead of comparing headline rates.
+- **Fable 5.1 cyber safeguards.** Exploit generation, pen-testing, and some
+  binary vulnerability scanning are restricted or redirected; defensive
+  vulnerability discovery is allowed. This is a scoped activity restriction, not
+  grounds to exclude a model from defensive security review, and not a reason to
+  move a task to a surface that would evade the safeguard.
+
+**Verified: 2026-09-23. Scope: direct Claude API unless stated.** From the Opus
+5.5 launch cycle. Each can change a routing or handoff decision; recheck any that
+decides a close call.
+
+- **Opus 5.5 unattended runs can end early.** A turn may end (`end_turn`) with a
+  text-only progress report while work is still owed. Unattended work needs a
+  completion checklist and a run summary so an early stop is visible, not
+  silent. Source: [prompting Opus 5.5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5).
+- **Opus 5.5 narration moves into thinking.** Text between tool calls now arrives
+  as `thinking` blocks, empty at the default display. Code or transcript mining
+  that parsed that text, or read `content[0]` as text, needs to select blocks by
+  type. Source: [migration guide](https://platform.claude.com/docs/en/models/opus-5-5/migration-guide).
+- **Opus 5.5 thinking portability.** Only Fable 5.1 and Mythos 5.1 read Opus 5.5
+  thinking, and Opus 5.5 does not read Fable or Mythos thinking. Moving a
+  conversation from Opus 5.5 to any other model, Opus 5 included, continues
+  without its earlier reasoning. The request does not fail, but continuity is
+  lost, so a handoff or fallback brief must be self-contained. Source:
+  [migration guide](https://platform.claude.com/docs/en/models/opus-5-5/migration-guide).
+- **Opus 5.5 refusal categories.** `bio` and `reasoning_extraction` are new,
+  alongside `cyber`. A refusal returns HTTP 200 with `stop_reason: "refusal"`
+  and names the category in `stop_details.category`. Prompts that ask for
+  reasoning written into the output can be refused. Server-side fallback
+  (`fallbacks: "default"`, beta) does not retry `reasoning_extraction` refusals.
+  Source: [what's new](https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5).
+- **Haiku 5.5 is announced but pending** ("in the coming weeks"; Sonnet 5.5
+  has shipped, see below). Until it ships, Haiku 4.5 is the current
+  tier. Re-verify this file when it ships, and re-check any route that uses the
+  `haiku` alias, because a silent alias upgrade is a behavior change. Source:
+  [Sonnet 5.5 announcement](https://www.anthropic.com/claude-sonnet-5-5).
+
+**Verified: 2026-09-29. Scope: direct Claude API unless stated.** From the
+Sonnet 5.5 launch. Source for each: [migration guide](https://platform.claude.com/docs/en/models/sonnet-5-5/migration-guide)
+unless noted.
+
+- **The `sonnet` alias has moved (Scope: Claude Code).** On the Anthropic API
+  provider it resolves to Sonnet 5.5, from Claude Code v2.1.284; on Bedrock,
+  Google Cloud, Foundry, and Claude Platform on AWS it still resolves to an
+  older Sonnet. Any route using the alias on the Anthropic API now runs Sonnet
+  5.5, a behavior change: re-check it against its acceptance checks rather than
+  assuming Sonnet 5 results carry over. What other surfaces (Cowork, the apps)
+  resolve it to is unverified. Source: [Claude Code model configuration](https://code.claude.com/docs/en/model-config).
+- **Sonnet 5.5 thinking portability.** It reads thinking from Sonnet 5, Opus 4.8,
+  Haiku 4.5, and earlier models, but not from Opus 5, Opus 5.5, Fable, or Mythos.
+  An Opus 5.5 → Sonnet 5.5 handoff or delegation starts without the Opus
+  reasoning, so the brief must be self-contained. Its thinking blocks also work
+  only in the account that produced them (or a linked account), including when
+  switching accounts mid-session in Claude Code.
+- **Sonnet 5.5 refusal categories and fallback.** Declines can name `cyber`,
+  `bio`, `frontier_llm`, `reasoning_extraction`, or `general_harms`; benign work
+  can trigger `general_harms`. Server-side fallback (beta) retries only `cyber`
+  and `frontier_llm`, on Sonnet 5; higher-risk cyber work visibly falls back to
+  Sonnet 5. Routine bug finding and fixing is unaffected. Source also:
+  [announcement](https://www.anthropic.com/claude-sonnet-5-5).
+- **Sonnet 5.5 thinking controls.** `thinking: {type: "disabled"}` returns a 400;
+  `between_tools` is the lowest setting and is accepted only at `high` effort or
+  below. With `between_tools`, effort cannot change mid-conversation. Effort
+  levels are recalibrated against Sonnet 5; re-run the effort sweep and
+  re-baseline cost.
+
+## Effort and execution
+
+**Verified: 2026-09-06. Scope: Claude Code.** The documented effort scale is
+calibrated per model. Model selection and effort can be changed through session
+controls, but persistence and supported values depend on the control and version.
+Inspect the installed surface before applying changes. Do not assume an API
+level is accepted in persistent settings.
+
+Source: [Claude Code model configuration](https://code.claude.com/docs/en/model-config).
+
+No model-specific instruction here removes verification or guarantees recall,
+security-review suitability, or current-world knowledge. For a migration,
+consult the selected model's current migration documentation for parameter
+compatibility rather than carrying forward unverified historical traps.

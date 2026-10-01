@@ -5,6 +5,18 @@ Versions refer to the `portco-skills` plugin as a whole. Bump the version in
 version set in one and not the other means installed copies never see the update.
 `tests/test_plugin_manifest.py` enforces that they agree.
 
+## 1.5.0
+
+- **model-router** — rewritten around evidence and verification (skill v2.3.0). It
+  keeps the current executor unless task evidence, capability, quota, or total cost
+  justifies a switch, and applies the same rule in Claude and Codex. Fixed vendor
+  preferences give way to dated, scoped facts. A model change keeps every
+  acceptance test, permission check, and required review, and a cheaper or unproven
+  route has to name an escalation trigger someone can actually observe. A
+  recommendation authorizes nothing; when the request does, the change is applied
+  and read back. Facts refreshed for Claude Opus 5.5 and Sonnet 5.5, with GPT-6
+  Astra added. New references: `execution-surfaces.md` and `evidence.md`.
+
 ## 1.4.0
 
 - **archive-trailer** — cuts a movie-trailer-style promo (60 s, plus 30 s and 15 s
