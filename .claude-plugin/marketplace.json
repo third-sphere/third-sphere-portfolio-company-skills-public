@@ -10,7 +10,7 @@
       "source": ".",
       "displayName": "Third Sphere Portfolio Company Skills",
       "description": "Fundraising, brand, reporting, writing, and AI-operations skills Third Sphere builds for its portfolio companies.",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "author": {
         "name": "Third Sphere",
         "url": "https://thirdsphere.com"
@@ -23,7 +23,9 @@
         "investor-updates",
         "startup",
         "ai-operations",
-        "model-selection"
+        "model-selection",
+        "video",
+        "promo"
       ],
       "license": "MPL-2.0"
     }

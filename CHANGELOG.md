@@ -5,6 +5,26 @@ Versions refer to the `portco-skills` plugin as a whole. Bump the version in
 version set in one and not the other means installed copies never see the update.
 `tests/test_plugin_manifest.py` enforces that they agree.
 
+## 1.4.0
+
+- **archive-trailer** — cuts a movie-trailer-style promo (60 s, plus 30 s and 15 s
+  cutdowns) entirely from public-domain archival footage: script beats, clip search and
+  screening on movingimagearchive.com, clip selection on a review page, face-aware
+  letterboxing, cards over or between shots, synthesized trailer hits, a public-domain
+  music edit that lands the climax on the turn, a -14 LUFS mix, and cutdowns that re-time
+  themselves.
+
+  Built on the premise that archival footage reads as metaphor and modern footage reads as
+  fact: a 1939 World's Fair can promise the future, but modern footage of someone else's
+  hardware under a card about your product reads as your product. Rights are treated as
+  claims to verify, including the layer most people miss — a band transcription of a
+  public-domain symphony is its own copyrighted arrangement.
+
+  Every project inherits a set of checks written from real failures: cards too wide for the
+  frame, cards on screen too briefly for a slow reader, picks too short to fill their beat,
+  faces cut off by the crop, and approvals that silently carry over to a different clip.
+  Needs `ffmpeg` and network access; clip-selection pages use a separate `visual-review` skill.
+
 ## 1.3.0
 
 - **model-router** — picks the executor and effort for a unit of work: which Claude

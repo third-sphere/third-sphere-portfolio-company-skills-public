@@ -69,10 +69,11 @@ Capabilities. The plugin route above is easier where it is available.
 
 ### What needs what
 
-Most of these skills are instructions and work anywhere. Two caveats:
+Most of these skills are instructions and work anywhere. Three caveats:
 
 | Skill | Needs |
 |---|---|
+| `archive-trailer` | `ffmpeg`, Python with `numpy` and `Pillow`, and network access to movingimagearchive.com and Wikimedia Commons. Use it in **Claude Code** or anywhere with code execution; clip-selection pages also need the separate `visual-review` skill. |
 | `portco-brand-extract` | Browser tools to read computed CSS, plus network access for the asset crawl. Use it in **Claude Code**; it degrades badly where Claude cannot reach the live site. |
 | `capstackcompass-public-portco-skill` | Network access to reach the CapStack Compass database. |
 
@@ -80,6 +81,7 @@ Most of these skills are instructions and work anywhere. Two caveats:
 
 | Skill | What it does |
 |---|---|
+| **archive-trailer** | Cut a movie-trailer-style promo (60 s, plus 30 s and 15 s cutdowns) entirely from public-domain archival footage — script beats, clip search and screening, face-aware framing, cards timed for slow readers, synthesized trailer hits, a public-domain music edit, -14 LUFS mix, and tests that catch the failures that cost a round |
 | **better-writing** | Diagnose and strengthen narrative structure in drafts (stories, essays, posts) — finds where writing takes default, low-risk choices and proposes concrete structural revisions |
 | **capstackcompass-public-portco-skill** | Look up climate credit and non-dilutive capital providers in the CapStack Compass database (capstackcompass.ai), and suggest new providers or corrections through Third Sphere's review queue |
 | **founder-update** | Build portfolio company investor updates (weekly/monthly) with OKRs, metrics dashboards, and trend charts — pulls data from CRM, billing, and finance tools to create polished, data-driven founder letters |

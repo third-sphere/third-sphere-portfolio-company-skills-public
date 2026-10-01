@@ -13,3 +13,8 @@ SKILL.md would be read by Claude as part of the skill.
 "Third Sphere", "CapStack Compass", and the Third Sphere logo are trademarks of
 Third Sphere. Section 2.3 of the MPL grants no rights in them.
 A fork should carry its own name.
+
+Third-party material
+skills/archive-trailer/assets/fonts/ contains DM Serif Display and DM Sans, licensed
+under the SIL Open Font License 1.1 (not MPL-2.0). Their license texts are in the same
+folder (OFL-DMSerifDisplay.txt, OFL-DMSans.txt).
